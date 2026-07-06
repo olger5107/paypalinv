@@ -1,1210 +1,603 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- Mirrored from apple-popup-2-1.edgeone.dev/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jul 2026 09:36:18 GMT -->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Secure Wallet</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<style>
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-
-  background:
-  linear-gradient(
-    180deg,
-    #f4f7fb 0%,
-    #edf2f7 100%
-  );
-
-  color:#111827;
-}
-
-/* START SCREEN */
-.start{
-  position:fixed;
-  inset:0;
-  background:#fff;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  z-index:9999;
-}
-
-.start img{
-  width:150px;
-  margin-bottom:24px;
-}
-
-.spinner{
-  width:72px;
-  height:72px;
-
-  border-radius:50%;
-
-  border:6px solid #e5e7eb;
-  border-top:6px solid #0070e0;
-
-  animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-  100%{
-    transform:rotate(360deg);
-  }
-}
-
-/* LOADER */
-.loader{
-  position:fixed;
-  inset:0;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  background:#fff;
-}
-
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:18px 28px;
-
-  background:rgba(255,255,255,.92);
-
-  backdrop-filter:blur(14px);
-
-  border-bottom:1px solid #e5e7eb;
-
-  color:#003087;
-
-  font-weight:700;
-
-  position:sticky;
-  top:0;
-  z-index:999;
-}
-
-.header span{
-  cursor:pointer;
-}
-
-/* CONTAINER */
-.container{
-  max-width:1080px;
-  margin:40px auto;
-  padding:0 22px;
-}
-
-/* BOX */
-.box{
-  position:relative;
-  overflow:hidden;
-
-  background:#fff;
-
-  border-radius:18px;
-
-  padding:26px;
-
-  margin-bottom:24px;
-
-  border:1px solid #e5e7eb;
-
-  box-shadow:
-  0 4px 12px rgba(0,0,0,0.03),
-  0 18px 40px rgba(0,48,135,0.05);
-}
-
-/* BUTTONS */
-.btn{
-  border:none;
-  cursor:pointer;
-
-  font-weight:700;
-
-  transition:.25s ease;
-}
-
-.primary{
-  background:
-  linear-gradient(
-    135deg,
-    #003087,
-    #0070e0
-  );
-
-  color:#fff;
-
-  box-shadow:
-  0 8px 22px rgba(0,112,224,.25);
-}
-
-.primary:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-  0 12px 28px rgba(0,112,224,.35);
-}
-
-.secondary{
-  background:#fff;
-
-  color:#003087;
-
-  border:1px solid #cbd5e1;
-}
-
-.full{
-  width:100%;
-}
-
-/* MODAL */
-.modal{
-
-  position:fixed;
-
-  top:90px;
-  left:0;
-  right:0;
-  bottom:0;
-
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-
-  z-index:99999;
-
-  background:
-  linear-gradient(
-    180deg,
-    rgba(15,23,42,.48),
-    rgba(15,23,42,.58)
-  );
-
-  
-
-  transition:.3s ease;
-
-  padding:0 20px 40px;
-
-  overflow-y:auto;
-}
-
-.modal-box{
-
-  width:100%;
-  max-width:540px;
-
-  background:#fff;
-
-  border-radius:22px;
-
-  padding:34px;
-
-  border:1px solid #e5e7eb;
-
-  box-shadow:
-  0 10px 40px rgba(0,0,0,.12);
-
-  position:relative;
-
-  overflow:hidden;
-
-  margin-top:10px;
-}
-
-.modal-box::before{
-
-  content:"";
-
-  position:absolute;
-
-  top:-100px;
-  right:-80px;
-
-  width:240px;
-  height:240px;
-
-  background:
-  radial-gradient(
-    rgba(0,112,224,.10),
-    transparent
-  );
-
-  border-radius:50%;
-}
-
-.hidden{
-  display:none;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-
-  html,body{
-    width:100%;
-    overflow-x:hidden;
-  }
-
-  .container{
-    padding:0 14px;
-  }
-
-  .header{
-    padding:16px;
-    font-size:14px;
-
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
-  }
-
-  .modal{
-    padding:12px;
-    align-items:flex-start;
-  }
-
-  .modal-box{
-    width:100%;
-    max-width:100%;
-    padding:22px;
-    border-radius:18px;
-    margin-top:20px;
-  }
-
-  .box{
-    padding:18px;
-  }
-
-  img{
-    max-width:100%;
-    height:auto;
-  }
-
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Pay Simulation</title>
+    <style>
+        /* Base Reset & Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container mimicking mobile screen */
+        .phone-container {
+            width: 100%;
+            max-width: 412px;
+            height: 900px;
+            background-color: #000000;
+            position: relative;
+            overflow-y: auto;
+            border: 1px solid #1c1c1e;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Flash overlay mimicking native authorization */
+        .shutter-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            opacity: 0;
+            z-index: 99;
+            pointer-events: none;
+        }
+
+        /* --- STAGE 1: FIXED CENTERED FACE ID POPUP --- */
+        .faceid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 90;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .faceid-popup {
+            background-color: #1c1c1e;
+            border-radius: 32px;
+            padding: 28px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8);
+            transform: scale(1);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .apple-pay-title {
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .apple-pay-title svg {
+            margin-right: 6px;
+        }
+
+        .amount {
+            color: #aeaeae;
+            font-size: 16px;
+        }
+
+        .pay-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2c2c2e;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pay-label {
+            color: #8e8e93;
+            font-size: 16px;
+        }
+
+        .pay-value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* High-fidelity Face ID Scanning View */
+        .faceid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        /* Outer native processing spin circle */
+        .circle-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.05);
+            border-top-color: #34c759;
+            border-right-color: #34c759;
+            animation: spin 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        /* Face ID glyph boundary box */
+        .faceid-box {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: pulseBox 2s ease-in-out infinite;
+        }
+
+        /* Sweeping dynamic scanner line overlay */
+        .faceid-box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #34c759, transparent);
+            box-shadow: 0 0 12px #34c759;
+            top: 0;
+            animation: sweep 2.2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .auth-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .sub-text {
+            color: #8e8e93;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Animation Keyframe Blocks */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes sweep {
+            0% { top: 0%; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes pulseBox {
+            0%, 100% { border-color: rgba(255, 255, 255, 0.15); }
+            50% { border-color: #34c759; }
+        }
+
+        /* --- STAGE 2: RECEIPT PAGE --- */
+        .receipt-page {
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 25px 0;
+        }
+
+        .need-help {
+            color: #2f80ed;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .success-card, .details-card, .support-card-container {
+            background-color: #1c1c1e;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .success-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-top: 35px;
+            padding-bottom: 35px;
+        }
+
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #24b354;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 0 25px rgba(36, 179, 84, 0.35);
+            transform: scale(0);
+        }
+
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+
+        .success-summary {
+            color: #8e8e93;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        /* Table Grid presentation layers */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #2c2c2e;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            color: #8e8e93;
+            font-size: 15px;
+        }
+
+        .data-value {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            color: #24b354;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .status-completed svg {
+            margin-right: 6px;
+        }
+
+        .confirmation-email {
+            display: flex;
+            align-items: center;
+        }
+
+        .confirmation-email svg {
+            margin-right: 6px;
+        }
+
+        .details-card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .details-card p {
+            color: #8e8e93;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .details-card p strong {
+            color: #ffffff;
+        }
+
+        .highlight-green {
+            color: #24b354;
+            font-weight: 600;
+        }
+
+        .delay-notice {
+            display: flex;
+            align-items: center;
+            color: #8e8e93;
+            font-size: 14px;
+            border-top: 1px solid #2c2c2e;
+            padding-top: 16px;
+        }
+
+        .delay-notice svg {
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        /* Support area wrapping row modules */
+        .support-card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .support-row-clickable {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .support-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .phone-icon-bg {
+            width: 40px;
+            height: 40px;
+            background-color: #2c2c2e;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 14px;
+        }
+
+        .support-text-main {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .support-text-sub {
+            color: #8e8e93;
+            font-size: 13px;
+        }
+
+        /* Primary dialer link helper button */
+        .call-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #007aff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.15s, transform 0.1s;
+            box-shadow: 0 4px 14px rgba(0, 122, 255, 0.25);
+        }
+
+        .call-action-btn:active {
+            background-color: #0062cc;
+            transform: scale(0.98);
+        }
+
+        .call-action-btn svg {
+            margin-right: 8px;
+        }
+
+        .footer-info {
+            text-align: center;
+            color: #636366;
+            font-size: 12px;
+            padding: 20px 0 40px 0;
+            line-height: 1.8;
+        }
+
+        /* --- STATE TRANSITION CLASSES --- */
+        .authenticated .faceid-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .authenticated .faceid-popup {
+            transform: scale(0.85);
+            opacity: 0;
+        }
+
+        .authenticated .receipt-page {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .authenticated .checkmark-circle {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation-delay: 0.35s;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes flashEffect {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- START SCREEN -->
-<div class="start" id="start">
+<div class="phone-container" id="mainContainer">
+    <div class="shutter-flash" id="flashLayer"></div>
 
-  <img src="www.paypalobjects.com/webstatic/icon/pp258.png">
+    <div class="faceid-overlay" id="faceIdOverlay">
+        <div class="faceid-popup">
+            <div class="popup-header">
+                <span class="apple-pay-title">
+                    <svg width="16" height="19" viewBox="0 0 17 20" fill="currentColor"><path d="M15.03 10.37c-.06-2.5 2.05-3.71 2.14-3.77-1.17-1.71-3-1.94-3.64-1.99-1.54-.16-3.02.91-3.8.91-.79 0-2.02-.89-3.32-.86-1.71.02-3.29.99-4.17 2.53-1.78 3.1-0.45 7.68 1.27 10.16.84 1.21 1.83 2.57 3.14 2.52 1.26-.05 1.74-.81 3.26-.81 1.52 0 1.96.81 3.28.79 1.35-.02 2.22-1.23 3.05-2.44.96-1.4 1.35-2.76 1.37-2.83-.03-.02-2.64-1.01-2.68-4.01zm-2.4-6.84c.69-.84 1.15-2 1.02-3.16-1 .04-2.21.67-2.93 1.51-.64.74-1.2 1.92-1.05 3.06 1.12.09 2.27-.57 2.96-1.41z"/></svg>
+                    Pay
+                </span>
+                <span class="amount">$789.19 USD</span>
+            </div>
 
-  <div class="spinner"></div>
+            <div class="pay-row">
+                <span class="pay-label">Pay</span>
+                <span class="pay-value">Samantha Brooks</span>
+            </div>
 
-  <p id="status">Securing Connection...</p>
-
-</div>
-
-<!-- LOADER -->
-<div class="loader hidden" id="loader">
-
-  <div class="spinner"></div>
-
-  <p style="
-  margin-top:20px;
-  text-align:center;
-  color:#6b7280;
-  ">
-    Secure wallet session verification in progress
-  </p>
-
-</div>
-
-<!-- HEADER -->
-<div class="header hidden" id="header">
-
-  <div style="
-display:flex;
-align-items:center;
-gap:12px;
-">
-
-<img
-src="www.paypalobjects.com/webstatic/icon/pp258.png"
-style="
-height:34px;
-object-fit:contain;
-"
->
-
-<div style="
-font-size:18px;
-font-weight:500;
-letter-spacing:.3px;
-">
-Resolution Center
-</div>
-
-</div>
-
-  <div>
-    <span onclick="goBack()">ACTIVITY</span> |
-    <span onclick="callSupport()">HELP CENTER</span>
-  </div>
-
-</div>
-
-<!-- FIRST PAGE -->
-<div class="modal hidden" id="modal">
-
-  <div class="modal-box" style="
-background:
-linear-gradient(
-180deg,
-#ffffff 0%,
-#f8fbff 100%
-);
-
-border:1px solid #dbeafe;
-
-box-shadow:
-0 30px 80px rgba(0,0,0,.18);
-
-padding:30px;
-">
-
-    <div style="
-display:flex;
-justify-content:center;
-margin-bottom:14px;
-">
-
-<img
-src="www.paypalobjects.com/webstatic/icon/pp258.png"
-style="
-height:58px;
-object-fit:contain;
-"
->
-
-</div>
-
-<div style="
-text-align:center;
-margin-bottom:30px;
-">
-
-<div style="
-font-size:30px;
-font-weight:700;
-color:#003087;
-margin-bottom:10px;
-letter-spacing:-0.5px;
-">
-Transaction Review
-</div>
-
-<div style="
-font-size:18px;
-color:#4b5563;
-line-height:1.45;
-max-width:420px;
-margin:auto;
-">
-We detected unusual transaction behavior requiring additional verification.
-</div>
-
-</div>
-
-
-    <p style="
-    text-align:center;
-    margin-bottom:16px;
-    font-size:17px;
-    ">
-      Your disbursement of
-      <span style="
-      color:#d93025;
-      font-weight:700;
-      " id="mAmt"></span>
-      placed on hold for verification
-    </p>
-	<div style="
-display:flex;
-justify-content:center;
-margin-top:12px;
-margin-bottom:18px;
-">
-
-<div style="
-display:flex;
-align-items:center;
-gap:10px;
-
-background:#fff8eb;
-
-border:1px solid #fde68a;
-
-padding:10px 18px;
-
-border-radius:999px;
-
-font-size:14px;
-font-weight:700;
-
-color:#92400e;
-">
-
-<div style="
-width:10px;
-height:10px;
-background:#f59e0b;
-border-radius:50%;
-box-shadow:0 0 10px #f59e0b;
-"></div>
-
-Verification Pending
-
-</div>
-
-</div>
-
-    <div style="
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
-    border-radius:18px;
-    padding:18px;
-    line-height:1.85;
-    ">
-
-      <div><b>STATUS</b> <span style="color:#d93025;font-weight:700;">Pending Review</span></div>
-
-      <div><b>REFERENCE:</b> <span id="ref"></span></div>
-
-      <div><b>DATE:</b> <span id="date"></span></div>
-
-      <div><b>USER AGENT IP:</b> <span id="ip"></span></div>
-
-      <div><b>LOCATION:</b> San Jose, US / Sync Active</div>
-
-
-
+            <div class="faceid-container">
+                <div class="circle-wrapper">
+                    <div class="faceid-box">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
+                            <path d="M9 10h.01M15 10h.01M12 12v3M10 17c1 1.5 3 1.5 4 0"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="auth-text">Authorizing Face ID</div>
+                <div class="sub-text">Glance at your device to authorize.</div>
+            </div>
+        </div>
     </div>
 
-    <button class="btn primary full" style="
-    padding:15px;
-    border-radius:16px;
-	font-weight:650;
-	letter-spacing:.2px;
-    margin-top:24px;
-    font-size:16px;
-    " onclick="callSupport()">
-
-      CALL SUPPORT: 1 (812) 266-5815
-
-    </button>
-
-    <button class="btn secondary full" style="
-    padding:15px;
-	border-radius:16px;
-	font-weight:650;
-	letter-spacing:.2px;
-    margin-top:14px;
-    font-size:16px;
-    " onclick="openFull()">
-
-      See Full Transaction
-
-    </button>
-
-  </div>
-
-</div>
-
-<!-- SECOND PAGE -->
-<div class="container" id="page2">
-
-  <div id="pdfArea">
-
-    <!-- TOP SUMMARY -->
-    <div class="box" style="
-    background:
-    linear-gradient(
-      135deg,
-      #003087,
-      #0070e0
-    );
-
-    color:white;
-
-    padding:34px;
-
-    overflow:hidden;
-    ">
-
-      <div style="
-      position:absolute;
-      top:-120px;
-      right:-80px;
-
-      width:260px;
-      height:260px;
-
-      background:rgba(255,255,255,.08);
-
-      border-radius:50%;
-
-      filter:blur(10px);
-      "></div>
-
-      <div style="
-      display:flex;
-      justify-content:space-between;
-      gap:20px;
-      flex-wrap:wrap;
-      position:relative;
-      z-index:2;
-      ">
-
-        <div>
-
-          <div style="
-          font-size:13px;
-          opacity:.85;
-          letter-spacing:1px;
-          margin-bottom:10px;
-          ">
-            ACTIVITY SUMMARY
-          </div>
-
-          <div id="amt" style="
-          font-size:42px;
-          font-weight:800;
-          margin-bottom:14px;
-          "></div>
-
-          <div style="
-          display:inline-flex;
-          align-items:center;
-          gap:10px;
-
-          background:rgba(255,255,255,.12);
-
-          padding:10px 16px;
-
-          border-radius:999px;
-
-          font-size:14px;
-          ">
-
-            <div style="
-            width:10px;
-            height:10px;
-            background:#4ade80;
-            border-radius:50%;
-            box-shadow:0 0 12px #4ade80;
-            "></div>
-
-            Transaction Verified
-
-          </div>
-
+    <div class="receipt-page">
+        <div class="top-nav">
+            <span class="apple-pay-title">
+                <svg width="16" height="19" viewBox="0 0 17 20" fill="currentColor"><path d="M15.03 10.37c-.06-2.5 2.05-3.71 2.14-3.77-1.17-1.71-3-1.94-3.64-1.99-1.54-.16-3.02.91-3.8.91-.79 0-2.02-.89-3.32-.86-1.71.02-3.29.99-4.17 2.53-1.78 3.1-0.45 7.68 1.27 10.16.84 1.21 1.83 2.57 3.14 2.52 1.26-.05 1.74-.81 3.26-.81 1.52 0 1.96.81 3.28.79 1.35-.02 2.22-1.23 3.05-2.44.96-1.4 1.35-2.76 1.37-2.83-.03-.02-2.64-1.01-2.68-4.01zm-2.4-6.84c.69-.84 1.15-2 1.02-3.16-1 .04-2.21.67-2.93 1.51-.64.74-1.2 1.92-1.05 3.06 1.12.09 2.27-.57 2.96-1.41z"/></svg>
+                Apple Pay
+            </span>
+            <a href="tel:9999999999" class="need-help">Need help?</a>
         </div>
 
-        <div style="text-align:right;">
-
-          <div style="
-          font-size:13px;
-          opacity:.8;
-          ">
-            REFERENCE ID
-          </div>
-
-          <div id="ref2" style="
-          margin-top:6px;
-          font-size:18px;
-          font-weight:700;
-          "></div>
-
-          <div style="
-          margin-top:24px;
-          font-size:13px;
-          opacity:.8;
-          ">
-            LAST UPDATED
-          </div>
-
-          <div id="date2" style="
-          margin-top:6px;
-          font-size:15px;
-          "></div>
-
+        <div class="success-card">
+            <div class="checkmark-circle">
+                <svg width="34" height="26" viewBox="0 0 24 18" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h1 class="success-title">Payment sent<br>successfully</h1>
+            <p class="success-summary">$789.19 sent to Samantha Brooks via Apple Pay</p>
         </div>
 
-      </div>
+        <div class="details-card">
+            <div class="data-row">
+                <span class="data-label">Date</span>
+                <span class="data-value">06/01/2026</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Transaction ID</span>
+                <span class="data-value">282JSI/2827</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Status</span>
+                <span class="status-completed">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#24b354"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Completed
+                </span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Payment Method</span>
+                <span class="data-value">Debit Card</span>
+            </div>
+            <div class="data-row">
+                <span class="data-label">Confirmation</span>
+                <span class="confirmation-email">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    Email
+                </span>
+            </div>
+        </div>
 
+        <div class="details-card">
+            <h3>About this payment</h3>
+            <p>You accepted a money request from <strong>Samantha Brooks</strong>. Your linked card was charged and the funds were transferred. The transaction is now marked <span class="highlight-green">Completed</span>.</p>
+            
+            <div class="delay-notice">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>Funds may take up to <strong>24 hours</strong> to reflect on your bank statement.</span>
+            </div>
+        </div>
+
+        <div class="support-card-container">
+            <a href="tel:9999999999" class="support-row-clickable">
+                <div class="support-left">
+                    <div class="phone-icon-bg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.68.25-1.05A11.39 11.39 0 0 1 8.58 4c0-.55-.45-1-1-1H4.03c-.55 0-1 .45-1 1 0 9.39 7.63 17 17 17 .55 0 1-.45 1-1v-3.62c0-.55-.45-1-1-1z"/></svg>
+                    </div>
+                    <div>
+                        <div class="support-text-main">Didn't recognize this payment?</div>
+                        <div class="support-text-sub">Call Apple Pay Support · 9999999999</div>
+                    </div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            
+            <a href="tel:9999999999" class="call-action-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.27c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.28 1.11l-2.17 2.11z"/></svg>
+                Contact Apple Support Team
+            </a>
+        </div>
+
+        <div class="footer-info">
+            Available 24/7 · Free from your registered number<br><br>
+            Apple Pay is a trademark of © Apple Inc. 2026
+        </div>
     </div>
-
-    <!-- ALERT -->
-    <div class="box" style="
-    background:#fff8eb;
-    border:1px solid #fde68a;
-    ">
-
-      <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      flex-wrap:wrap;
-      ">
-
-        <div>
-
-          <div style="
-          font-size:15px;
-          font-weight:700;
-          color:#92400e;
-          margin-bottom:6px;
-          ">
-            Action Recommended
-          </div>
-
-          <div style="
-          font-size:14px;
-          color:#78350f;
-          line-height:1.6;
-          ">
-            Additional verification may be required to avoid temporary service limitations. For more information, speak to customer service at 1 (812) 266-5815.
-          </div>
-
-        </div>
-
-        <div style="
-        background:#f59e0b;
-        color:white;
-
-        padding:10px 18px;
-
-        border-radius:999px;
-
-        font-size:13px;
-        font-weight:700;
-        ">
-          Review Pending
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ACCOUNT PANEL -->
-    <div class="box">
-
-      <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:24px;
-      flex-wrap:wrap;
-      gap:20px;
-      ">
-
-        <div>
-
-          <div style="
-          font-size:24px;
-          font-weight:700;
-          color:#003087;
-          ">
-            Account Activity
-          </div>
-
-          <div style="
-          color:#6b7280;
-          margin-top:8px;
-          font-size:14px;
-          ">
-            Secure transaction overview and verification details
-          </div>
-
-        </div>
-
-        <div style="
-        background:#e7f5ee;
-        color:#0f9f6e;
-
-        padding:10px 18px;
-
-        border-radius:999px;
-
-        font-size:14px;
-        font-weight:700;
-        ">
-          Active
-        </div>
-
-      </div>
-
-      <!-- GRID -->
-      <div style="
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:18px;
-      ">
-
-        <div style="
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:16px;
-        padding:18px;
-        ">
-
-          <div style="
-          font-size:13px;
-          color:#6b7280;
-          ">
-            Invoice Number
-          </div>
-
-          <div id="inv" style="
-          margin-top:8px;
-          font-size:18px;
-          font-weight:700;
-          "></div>
-
-        </div>
-
-        <div style="
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:16px;
-        padding:18px;
-        ">
-
-          <div style="
-          font-size:13px;
-          color:#6b7280;
-          ">
-            Gateway IP
-          </div>
-
-          <div id="ip2" style="
-          margin-top:8px;
-          font-size:18px;
-          font-weight:700;
-          "></div>
-
-        </div>
-
-        <div style="
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:16px;
-        padding:18px;
-        ">
-
-          <div style="
-          font-size:13px;
-          color:#6b7280;
-          ">
-            Service Category
-          </div>
-
-          <div style="
-          margin-top:8px;
-          font-size:18px;
-          font-weight:700;
-          ">
-            Cloud Infrastructure
-          </div>
-
-        </div>
-
-        <div style="
-        background:#f8fafc;
-        border:1px solid #e5e7eb;
-        border-radius:16px;
-        padding:18px;
-        ">
-
-          <div style="
-          font-size:13px;
-          color:#6b7280;
-          ">
-            Purchase Item
-          </div>
-
-          <div style="
-          margin-top:8px;
-          font-size:18px;
-          font-weight:700;
-          ">
-            Enterprise License v4.3
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ACTIVITY -->
-    <div class="box">
-
-      <div style="
-      font-size:24px;
-      font-weight:700;
-      color:#003087;
-      margin-bottom:24px;
-      ">
-        Recent Activity
-      </div>
-
-      <div id="ledger" style="
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      "></div>
-
-    </div>
-
-    <!-- SUPPORT -->
-    <div class="box" style="
-    background:#f8fbff;
-    border:1px solid #dbeafe;
-    ">
-
-      <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      flex-wrap:wrap;
-      ">
-
-        <div>
-
-          <div style="
-          font-size:24px;
-          font-weight:700;
-          color:#003087;
-          ">
-            Resolution Center
-          </div>
-
-          <div style="
-          margin-top:8px;
-          color:#6b7280;
-          font-size:14px;
-          max-width:500px;
-          line-height:1.7;
-          ">
-            Need assistance regarding this activity?
-            Contact customer service immediately for assistance at 1 (812) 266-5815.
-          </div>
-
-        </div>
-
-        <div style="
-        display:flex;
-        gap:12px;
-        flex-wrap:wrap;
-        ">
-
-          <button class="btn secondary" style="
-          padding:16px 22px;
-          border-radius:14px;
-          " onclick="downloadPDF()">
-
-            Download PDF
-
-          </button>
-
-          <button class="btn primary" style="
-          padding:16px 22px;
-          border-radius:14px;
-          " onclick="callSupport()">
-
-            Contact Support
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- FOOTER -->
-    <div class="box">
-
-      <button class="btn primary full" style="
-      padding:18px;
-      border-radius:14px;
-      font-size:16px;
-      " onclick="goBack()">
-
-        Return to Activity Overview
-
-      </button>
-
-    </div>
-
-  </div>
-
 </div>
 
 <script>
-
-const phoneNumber = "18122665815";
-
-function callSupport(){
-  window.location.href = "tel:" + phoneNumber;
-}
-
-function r(min,max){
-  return Math.random()*(max-min)+min;
-}
-
-function ri(min,max){
-  return Math.floor(r(min,max));
-}
-
-function formatDate(){
-
-  let d=new Date();
-
-  return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+
-         d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-}
-
-function animate(el,val){
-
-  let dur=700;
-  let startTime=null;
-
-  function step(t){
-
-    if(!startTime){
-      startTime=t;
-    }
-
-    let p=Math.min((t-startTime)/dur,1);
-
-    el.innerText='-$'+(val*p).toFixed(2);
-
-    if(p<1){
-      requestAnimationFrame(step);
-    }
-
-  }
-
-  requestAnimationFrame(step);
-}
-
-function randomIP(){
-
-  return ri(1,255)+'.'+
-         ri(1,255)+'.'+
-         ri(1,255)+'.'+
-         ri(1,255);
-}
-
-function gen(){
-
-  let val=r(100,900);
-
-  animate(document.getElementById('amt'), val);
-  animate(document.getElementById('mAmt'), val);
-
-  let ref='REF-'+
-  Math.random()
-  .toString(36)
-  .substr(2,8)
-  .toUpperCase();
-
-  document.getElementById('ref').innerText=ref;
-  document.getElementById('ref2').innerText=ref;
-
-  document.getElementById('inv').innerText=
-  'INV-'+ri(100000,999999);
-
-  let ip=randomIP();
-
-  document.getElementById('ip').innerText=ip;
-  document.getElementById('ip2').innerText=ip;
-
-  document.getElementById('date').innerText=formatDate();
-  document.getElementById('date2').innerText=formatDate();
-
-  let stores=[
-    "Amazon",
-    "Walmart",
-    "BestBuy",
-    "Nike",
-    "Zara",
-    "Adobe",
-    "Netflix",
-    "eBay",
-    "Apple",
-    "Target"
-  ];
-
-  let html='';
-
-  for(let i=0;i<10;i++){
-
-    html += `
-
-<div style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:18px 20px;
-
-background:#ffffff;
-
-border:1px solid #e5e7eb;
-border-left:4px solid #0070e0;
-
-border-radius:14px;
-
-box-shadow:
-0 2px 10px rgba(0,0,0,.03);
-">
-
-  <div>
-
-    <div style="
-    font-weight:700;
-    color:#111827;
-    margin-bottom:4px;
-    font-size:15px;
-    ">
-      ${stores[i]}
-    </div>
-
-    <div style="
-    font-size:13px;
-    color:#6b7280;
-    ">
-      Secure Transaction Verification
-    </div>
-
-  </div>
-
-  <div style="
-  font-weight:700;
-  color:#111827;
-  font-size:16px;
-  ">
-    -$${r(10,200).toFixed(2)}
-  </div>
-
-</div>
-
-`;
-
-  }
-
-  document.getElementById('ledger').innerHTML=html;
-}
-
-/* FLOW */
-setTimeout(()=>{
-
-  document.getElementById("status").innerText="Authorizing...";
-
-},1500);
-
-setTimeout(()=>{
-
-  document.getElementById("status").innerText=
-  "Authorization Complete";
-
-},3000);
-
-setTimeout(()=>{
-
-  document.getElementById("start").style.display="none";
-
-  document.getElementById("loader")
-  .classList.remove("hidden");
-
-  setTimeout(()=>{
-
-    document.getElementById("loader")
-    .style.display="none";
-
-    document.getElementById("header")
-    .classList.remove("hidden");
-
-    document.getElementById("modal")
-    .classList.remove("hidden");
-
-    gen();
-
-  },1500);
-
-},4000);
-
-function openFull(){
-
-  const modal = document.getElementById("modal");
-
-  // Hide popup
-  modal.classList.add("hidden");
-
-  // Show again after 4 seconds
-  setTimeout(() => {
-
-    modal.classList.remove("hidden");
-
-    const box = document.querySelector(".modal-box");
-
-    box.style.animation = "none";
-    void box.offsetWidth;
-
-    box.style.animation =
-      "modalIn .58s cubic-bezier(.2,.8,.2,1) forwards";
-
-  }, 4000); // 4000ms = 4 seconds
-
-}
-
-function goBack(){
-
-  document.getElementById('page2')
-  .classList.add('hidden');
-
-  document.getElementById('modal')
-  .style.display='flex';
-}
-
-function downloadPDF(){
-
-  let element=document.getElementById('pdfArea');
-
-  html2pdf()
-  .from(element)
-  .save("transaction.html");
-}
-
+    window.addEventListener('DOMContentLoaded', () => {
+        // Run simulated biometric verification sequence
+        setTimeout(() => {
+            const flashLayer = document.getElementById('flashLayer');
+            const container = document.getElementById('mainContainer');
+            
+            // Trigger rapid white flash effect
+            flashLayer.style.animation = "flashEffect 0.35s ease-out forwards";
+            
+            // Complete authorization phase transitions
+            container.classList.add('authenticated');
+        }, 3200); 
+    });
 </script>
 
 </body>
+
+<!-- Mirrored from apple-popup-2-1.edgeone.dev/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jul 2026 09:36:18 GMT -->
 </html>
